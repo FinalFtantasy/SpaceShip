@@ -12,11 +12,26 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Extern\Simple2D\includes\Simple2D.h" />
-    <ClInclude Include="..\..\Sources\Game.h" />
+    <ClInclude Include="..\..\Sources\Objects\AActor.h" />
+    <ClInclude Include="..\..\Sources\Objects\ABackground.h" />
+    <ClInclude Include="..\..\Sources\Objects\AFont.h" />
+    <ClInclude Include="..\..\Sources\TGame.h" />
+    <ClInclude Include="..\..\Sources\GlobalConfig.h" />
+    <ClInclude Include="..\..\Sources\GlobalFunctionLibrary.h" />
+    <ClInclude Include="..\..\Sources\Levels\ULevel.h" />
+    <ClInclude Include="..\..\Sources\Levels\StartLevel.h" />
+    <ClInclude Include="..\..\Sources\UObject.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Sources\Game.cpp" />
+    <ClCompile Include="..\..\Sources\Objects\AActor.cpp" />
+    <ClCompile Include="..\..\Sources\Objects\ABackground.cpp" />
+    <ClCompile Include="..\..\Sources\Objects\AFont.cpp" />
+    <ClCompile Include="..\..\Sources\TGame.cpp" />
+    <ClCompile Include="..\..\Sources\GlobalFunctionLibrary.cpp" />
+    <ClCompile Include="..\..\Sources\Levels\ULevel.cpp" />
+    <ClCompile Include="..\..\Sources\Levels\StartLevel.cpp" />
     <ClCompile Include="..\..\Sources\Main.cpp" />
+    <ClCompile Include="..\..\Sources\UObject.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ABEEE6FE-4FA0-4C54-B8D0-6E9DDD60691A}</ProjectGuid>

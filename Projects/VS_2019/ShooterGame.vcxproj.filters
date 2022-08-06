@@ -7,6 +7,9 @@
     <Filter Include="Source">
       <UniqueIdentifier>{e02f32fc-282d-454d-b229-9937babea658}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Levels">
+      <UniqueIdentifier>{0132b144-5fbb-41cc-b90a-9e8ff347acf1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Extern\Simple2D\includes\Simple2D.h">
@@ -15,6 +18,18 @@
     <ClInclude Include="..\..\Sources\Game.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Sources\GlobalFunctionLibrary.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Object.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\GlobalConfig.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Level.h">
+      <Filter>Source\Levels</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Sources\Main.cpp">
@@ -22,6 +37,15 @@
     </ClCompile>
     <ClCompile Include="..\..\Sources\Game.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GlobalFunctionLibrary.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Object.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Level.cpp">
+      <Filter>Source\Levels</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

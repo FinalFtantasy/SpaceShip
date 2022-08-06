@@ -1,15 +1,16 @@
 #include "Simple2D.h"
-#include "Game.h"
+#include "TGame.h"
+#include "GlobalConfig.h"
 
 int main(int argc, char *argv[])
 {
-	Simple2D::Window* pWindow = Simple2D::CreateWindow("ShooterGame", 1024, 768);
+	Simple2D::Window* pWindow = Simple2D::CreateWindow(Config::GameName, Config::WinWidth, Config::WinHeight);
 	
-	Game* TheGame = Game::Instance();
+	TGame* TheGame = TGame::Instance();
 	TheGame->Init(pWindow);
 	TheGame->BeginGame();
 
-	while (!Simple2D::ShouldWindowClose(pWindow))
+	while (!Simple2D::ShouldWindowClose(pWindow) || TheGame->IsGameEnd())
 	{
 		TheGame->Update();
 		Simple2D::RefreshWindowBuffer(pWindow);
