@@ -1,11 +1,14 @@
 ﻿#include "AActor.h"
+#include "AActor.h"
 #include "Simple2D.h"
 #include "../GlobalFunctionLibrary.h"
 #include "../TGame.h"
 #include "../Levels/ULevel.h"
 
-AActor::AActor(): Image(nullptr)
+AActor::AActor(): Image(nullptr), bHide(false)
 {
+    Width = 0;
+    Height = 0;
 }
 
 AActor::AActor(Simple2D::Image* InImage): Image(InImage)
@@ -15,6 +18,7 @@ AActor::AActor(Simple2D::Image* InImage): Image(InImage)
 
 void AActor::Init()
 {
+    UObject::Init();
 }
 
 void AActor::Update(float DeltaTime)
@@ -24,7 +28,10 @@ void AActor::Update(float DeltaTime)
 
 void AActor::Draw() const
 {
-    Simple2D::DrawImage(Image, Transform.PosX, Transform.PosY, Transform.Rotation, Transform.Scale);
+    if (Image && !IsHide())
+    {
+        Simple2D::DrawImage(Image, Transform.PosX, Transform.PosY, Transform.Rotation, Transform.Scale);
+    }
 }
 
 void AActor::EndPlay()
@@ -32,7 +39,52 @@ void AActor::EndPlay()
     if (Image)
     {
         Simple2D::DestroyImage(Image);
+        Image = nullptr;
     }
+}
+
+void AActor::GetActorWidthAndHeight(int& OutWidth, int& OutHeight, const bool bOriginal) const
+{
+    OutWidth = GetActorWidth(bOriginal);
+    OutHeight = GetActorHeight(bOriginal);
+}
+
+int AActor::GetActorWidth(const bool bOriginal) const
+{
+    return static_cast<int>(static_cast<float>(Width) * (bOriginal ? 1 : Transform.Scale));
+}
+
+int AActor::GetActorHeight(const bool bOriginal) const
+{
+    return static_cast<int>(static_cast<float>(Height) * (bOriginal ? 1 : Transform.Scale));
+}
+
+void AActor::OnHitCollision(AActor* Actor)
+{
+}
+
+bool AActor::SetImage(const std::string& FileName)
+{
+    if (Simple2D::Image* TargetImage = Tool::CreateImage(FileName))
+    {
+        if (Image)
+        {
+            Simple2D::DestroyImage(Image);
+        }
+
+        Image = TargetImage;
+
+        // update width and height
+        Simple2D::GetImageSize(Image, &Width, &Height); 
+        return true;
+    }
+
+    return false;
+}
+
+bool AActor::ShouldDraw()
+{
+    return IsHasBegunPlay() && !IsDestroy();
 }
 
 ULevel* AActor::GetLevel()
@@ -40,31 +92,4 @@ ULevel* AActor::GetLevel()
     return TGame::GetCurrentLevel();
 }
 
-AActor* AActor::CreateActor(const std::string& ImageFilePath, bool AddToLevel)
-{
-    AActor* Actor = nullptr;
-    if (ImageFilePath.empty())
-    {
-       Actor = new AActor();
-    }
-    else if (Simple2D::Image* Image = Tool::CreateImage(ImageFilePath))
-    {
-        Actor = new AActor(Image);
-    }
-    
-    if (Actor)
-    {
-        Actor->Init();
-        if (AddToLevel)
-        {
-            if (ULevel* Level = GetLevel())
-            {
-                Level->AddActor(Actor);
-            }
-        }
-        
-        return Actor;
-    }
-    
-    return nullptr;
-}
+

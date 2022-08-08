@@ -3,9 +3,9 @@
 
 #include "../GlobalFunctionLibrary.h"
 
-AFont* AFont::CreateFont(const std::string& InString)
+AFont* AFont::CreateFont(const std::string& InString, const uint32 FontSize )
 {
-    if (Simple2D::Font* Font = Tool::CreateFont())
+    if (Simple2D::Font* Font = Tool::CreateFont(FontSize))
     {
         if (const auto tFont = new AFont(Font))
         {
@@ -21,7 +21,10 @@ AFont* AFont::CreateFont(const std::string& InString)
 
 void AFont::Draw() const 
 {
-    Simple2D::DrawString(Font, Text, Transform.PosX, Transform.PosY, Transform.Rotation, Transform.Scale);
+    if (Font)
+    {
+        Simple2D::DrawString(Font, Text, Transform.PosX, Transform.PosY, Transform.Rotation, Transform.Scale);
+    }
 }
 
 void AFont::Update(float DeltaTime)

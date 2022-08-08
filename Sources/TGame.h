@@ -1,8 +1,11 @@
 #pragma once
 
+#include "GlobalConfig.h"
 #include "Simple2D.h"
+#include "Levels/ULevel.h"
 
 class ULevel;
+class AFont;
 
 class TGame
 {
@@ -11,6 +14,7 @@ public:
 
 	void Init(Simple2D::Window* TargetGameWindow);
 	void BeginGame();
+	void GameStart();
 	bool IsGameEnd();
 	void Update();
 	void EndGame();
@@ -31,27 +35,47 @@ public:
 		 }
 	}
 
-	float GetGameTimeNow();
+	static float GetGameTimeNow();
 	
-	inline uint32_t GetFrameNumber() const { return FrameNumber; }
+	static uint32 GetFrameNumber() { return FrameNumber; }
 
 	static ULevel* GetCurrentLevel() { return CurrentLevel; }
+	static uint32 GetFPS() { return FPS; }
+
+	void CheckInput();
+
+	void ShowSettlemmentUi();
+	void RestartGame();
 
 private:
 	TGame();
+
+	void RestartGameInternal();
 
 	static TGame* ThisGame;
 
 	static ULevel* CurrentLevel; 
 
 	Simple2D::Window* GameWindow;
+
+	AFont* FFPS;
+	AFont* FGameTime;
+	AFont* Helper;
+
+	class ASettmentUI* SettmentUI;
 	
-	float GameBeginTime;
+	static float GameBeginTime;
 
 	float LastFrameBeginTime;
 	float LastFrameEndTime;
 
-	uint32_t FrameNumber;
+	static uint32 FrameNumber;
+	static uint32 FPS;
+
+	bool bReStartGame;
+	bool bStartGame;
+	bool bShowHelper;
+	bool bShowFPS;
 
 };
 

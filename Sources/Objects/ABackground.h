@@ -1,18 +1,30 @@
 ﻿#pragma once
-#include "../UObject.h"
 
-class ABackground : public UObject
+#include "AActor.h"
+
+class ABackground : public AActor
 {
 public:
-    static ABackground* CreateBackground();
-    
-    virtual void Update(float DeltaTime) override;
+    ABackground();
+
+    virtual void Init() override;
+    virtual void Update(const float DeltaTime) override;
     virtual void Draw() const override;
     virtual void EndPlay() override;
 
+    inline void StartMoveMoon() { bMoveMoon = true;}
+    void ResetMoon();
+
 private:
-    bool Init();
+    void SpawnMoon();
     
-    class AActor* BG1;
-    class AActor* BG2;
+    AActor* BG1;
+    AActor* BG2;
+
+    AActor* Moon;
+
+    float Speed;
+    float MoonSpeed;
+
+    bool bMoveMoon;
 };

@@ -1,11 +1,19 @@
 #include "ULevel.h"
 
+#include "../TGame.h"
 #include "../Objects/AActor.h"
 #include "../Objects/ABackground.h"
+#include "../Objects/ABullet.h"
+#include "../Objects/AHero.h"
+
+ABackground* ULevel::Background = nullptr;
+AHero* ULevel::Hero = nullptr;
 
 ULevel::ULevel()
 {
     HasBegunPlay = false;
+    bLevelBattleEnd = false;
+    bPause = false;
 }
 
 void ULevel::UnLoadLevel(ULevel* TargetLevel)
@@ -19,14 +27,21 @@ void ULevel::UnLoadLevel(ULevel* TargetLevel)
 bool ULevel::InitLevel()
 {
     InitBackground();
+
+    Hero = AHero::Get();
+    
     return true;
 }
 
 void ULevel::LevelBegin()
 {
     HasBegunPlay = true;
+
+    LevelBeginTime = TGame::GetGameTimeNow();
     
     Background->BeginPlay();
+
+    Hero->BeginPlay();
     
     for (AActor* Actor : LevelActors)
     {
@@ -39,7 +54,22 @@ void ULevel::LevelEnd()
     for (AActor* Actor : LevelActors)
     {
         Actor->Destroy();
+        delete Actor;
     }
+
+    for (ABullet* Bullet : Bullets)
+    {
+        Bullet->Destroy();
+        delete Bullet;
+    }
+
+    LevelActors.clear();
+    Bullets.clear();
+    BulletsUnused.clear();
+}
+
+void ULevel::OnLevelBattleEnd()
+{
 }
 
 void ULevel::AddActor(AActor* InActor)
@@ -47,32 +77,82 @@ void ULevel::AddActor(AActor* InActor)
     if (InActor)
     {
         LevelActors.push_back(InActor);
+        if (HasBegunPlay)
+        {
+            InActor->BeginPlay();
+        }
     }
+}
+
+void ULevel::AddBullet(ABullet* InBullet)
+{
+    if (InBullet)
+    {
+        Bullets.push_back(InBullet);
+        if (HasBegunPlay)
+        {
+            InBullet->BeginPlay();
+        }
+    }
+}
+
+void ULevel::OnHeroHpChanged()
+{
 }
 
 void ULevel::InitBackground()
 {
-    Background = ABackground::CreateBackground();
+    if (Background == nullptr)
+    {
+        Background = AActor::CreateActor<ABackground>("", false);
+    }
 }
 
 void ULevel::LevelUpdate(float DeltaTime)
 {
-    Background->Update(DeltaTime);
+    LevelGameTimeNow = TGame::GetGameTimeNow() - LevelBeginTime;
 
-    for (AActor* Actor : LevelActors)
+    if (!bPause)
     {
-        Actor->Update(DeltaTime);
+        LevelLogicUpdate(DeltaTime);
+
+        if (bLevelBattleEnd)
+        {
+            Pause();
+            OnLevelBattleEnd();
+        }
     }
+}
+
+void ULevel::LevelLogicUpdate(float DeltaTime)
+{
+    if (Background && Background->ShouldUpdate())
+    {
+        Background->Update(DeltaTime);
+    }
+
+    if (Hero && Hero->ShouldUpdate())
+    {
+        Hero->Update(DeltaTime);
+    }
+
+    UpdateActors(Bullets, DeltaTime);
+    UpdateActors(LevelActors, DeltaTime);
 }
 
 void ULevel::DrawLevel()
 {
-    Background->Draw();
-
-    for (const AActor* Actor : LevelActors)
+    if (Background)
     {
-        Actor->Draw();
+        Background->Draw();
+    }
+
+    DrawActors(LevelActors);
+    DrawActors(Bullets);
+
+    if (Hero)
+    {
+        Hero->Draw();
     }
 }
-
 

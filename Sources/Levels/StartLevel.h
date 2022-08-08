@@ -7,6 +7,8 @@ public:
 
     virtual bool InitLevel() override;
 
+    virtual void LevelLogicUpdate(float DeltaTime) override;
+    
     virtual void DrawLevel() override;
 
     virtual void LevelEnd() override;

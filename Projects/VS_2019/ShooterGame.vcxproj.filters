@@ -15,37 +15,49 @@
     <ClInclude Include="..\..\Extern\Simple2D\includes\Simple2D.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Sources\Game.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Sources\GlobalFunctionLibrary.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Sources\Object.h">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Sources\GlobalConfig.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Sources\Level.h">
-      <Filter>Source\Levels</Filter>
-    </ClInclude>
+    <ClInclude Include="..\..\Sources\Animation\Action.h" />
+    <ClInclude Include="..\..\Sources\Animation\Animation.h" />
+    <ClInclude Include="..\..\Sources\Levels\UBattleLevel.h" />
+    <ClInclude Include="..\..\Sources\Objects\AActor.h" />
+    <ClInclude Include="..\..\Sources\Objects\ABackground.h" />
+    <ClInclude Include="..\..\Sources\Objects\ABullet.h" />
+    <ClInclude Include="..\..\Sources\Objects\AEnemy.h" />
+    <ClInclude Include="..\..\Sources\Objects\AFont.h" />
+    <ClInclude Include="..\..\Sources\Objects\AHero.h" />
+    <ClInclude Include="..\..\Sources\Objects\AItem.h" />
+    <ClInclude Include="..\..\Sources\Objects\APawn.h" />
+    <ClInclude Include="..\..\Sources\TGame.h" />
+    <ClInclude Include="..\..\Sources\Levels\ULevel.h" />
+    <ClInclude Include="..\..\Sources\Levels\StartLevel.h" />
+    <ClInclude Include="..\..\Sources\UObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Sources\Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Sources\Game.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Sources\GlobalFunctionLibrary.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Sources\Object.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Sources\Level.cpp">
-      <Filter>Source\Levels</Filter>
-    </ClCompile>
+    <ClCompile Include="..\..\Sources\Animation\Action.cpp" />
+    <ClCompile Include="..\..\Sources\Animation\Animation.cpp" />
+    <ClCompile Include="..\..\Sources\Levels\UBattleLevel.cpp" />
+    <ClCompile Include="..\..\Sources\Objects\AActor.cpp" />
+    <ClCompile Include="..\..\Sources\Objects\ABackground.cpp" />
+    <ClCompile Include="..\..\Sources\Objects\ABullet.cpp" />
+    <ClCompile Include="..\..\Sources\Objects\AEnemy.cpp" />
+    <ClCompile Include="..\..\Sources\Objects\AFont.cpp" />
+    <ClCompile Include="..\..\Sources\Objects\AHero.cpp" />
+    <ClCompile Include="..\..\Sources\Objects\AItem.cpp" />
+    <ClCompile Include="..\..\Sources\Objects\APawn.cpp" />
+    <ClCompile Include="..\..\Sources\TGame.cpp" />
+    <ClCompile Include="..\..\Sources\Levels\ULevel.cpp" />
+    <ClCompile Include="..\..\Sources\Levels\StartLevel.cpp" />
+    <ClCompile Include="..\..\Sources\UObject.cpp" />
   </ItemGroup>
 </Project>
