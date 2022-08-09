@@ -16,9 +16,14 @@ public:
 
     void UpdateLifePos();
     void UpdateScore(uint32 Score);
+
+    void ShowEnemyUpGrade();
 private:
     AFont* FLife;
     AFont* FScore;
-
+    
+    AFont* FNotice;
+    float NoticeDuration;
+    
     std::vector<AActor*> HeroLife;
 };

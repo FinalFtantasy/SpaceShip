@@ -139,7 +139,7 @@ void AHero::Upgrade()
     {
         SetImage("Player_2");
         Speed = Config::DefaultHeroSpeed * 1.2;
-        Damage = Config::DefaultHeroBulletDamage * 2;
+        Damage = Config::DefaultHeroBulletDamage * 1.5;
         BulletSpeed = Config::DefaultBulletSpeed * 1.5;
         ConfigFireCD = Config::DefaultHeroFireCD * 0.5;
     }
@@ -147,7 +147,7 @@ void AHero::Upgrade()
     {
         SetImage("Player_3");
         Speed = Config::DefaultHeroSpeed * 1.5;
-        Damage = Config::DefaultHeroBulletDamage * 4;
+        Damage = Config::DefaultHeroBulletDamage * 2;
         BulletSpeed = Config::DefaultBulletSpeed * 2;
         ConfigFireCD = Config::DefaultHeroFireCD * 0.3;
     }

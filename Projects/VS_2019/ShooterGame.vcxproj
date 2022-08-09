@@ -12,8 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Extern\Simple2D\includes\Simple2D.h" />
-    <ClInclude Include="..\..\Sources\Animation\Action.h" />
-    <ClInclude Include="..\..\Sources\Animation\Animation.h" />
     <ClInclude Include="..\..\Sources\Levels\UBattleLevel.h" />
     <ClInclude Include="..\..\Sources\Objects\AActor.h" />
     <ClInclude Include="..\..\Sources\Objects\ABackground.h" />
@@ -35,8 +33,6 @@
     <ClInclude Include="..\..\Sources\UObject.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Sources\Animation\Action.cpp" />
-    <ClCompile Include="..\..\Sources\Animation\Animation.cpp" />
     <ClCompile Include="..\..\Sources\Levels\UBattleLevel.cpp" />
     <ClCompile Include="..\..\Sources\Objects\AActor.cpp" />
     <ClCompile Include="..\..\Sources\Objects\ABackground.cpp" />

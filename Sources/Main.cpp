@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
 	Simple2D::Window* pWindow = Simple2D::CreateWindow(Config::GameName, Config::WinWidth, Config::WinHeight);
-	
+
 	TGame* TheGame = TGame::Instance();
 	TheGame->Init(pWindow);
 	TheGame->BeginGame();

@@ -13,7 +13,7 @@ class AEnemy : public APawn
 {
 public:
 
-    static AEnemy* CreateEnemy(EEnemyType EnemyType);
+    static AEnemy* CreateEnemy(EEnemyType EnemyType, uint32 Level = 1);
 
     virtual  void Init() override;
     virtual  void BeginPlay() override;
@@ -41,6 +41,8 @@ private:
     uint32 TargetPosX;
     uint32 TargetPosY;
     float StayDuration;
+    uint32 Level;
+    uint32 ConfigFireCD;
 
     bool CanFire;
     float FireCD;

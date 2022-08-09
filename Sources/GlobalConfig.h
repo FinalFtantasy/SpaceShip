@@ -64,14 +64,17 @@ namespace Config
 	constexpr uint32 EnemyEliteHP = 40;
 	constexpr uint32 EnemyEliteScore = 10;
 	constexpr uint32 EnemyEliteFireCD = 1;
-	constexpr uint32 EnemyBulletSpeed = 400;
 
 	constexpr uint32 EnemyBossSpawnTime = 30;
 	constexpr uint32 EnemyBossSpeed = 100;
-	constexpr uint32 EnemyBossHP = 200;
+	constexpr uint32 EnemyBossHP = 300;
 	constexpr uint32 EnemyBossScore = 50;
 	constexpr uint32 EnemyBossFireCD = 3;
 	constexpr uint32 EnemyBossStayTime = 4;
+
+	constexpr uint32 EnemyBulletSpeed = 400;
+	constexpr uint32 EnemyMaxLevel = 4;
+	constexpr uint32 EnemyUpgradeTime = 20;
 
 	// Damage
 	constexpr uint32 DefaultCollisionDamage = 1;

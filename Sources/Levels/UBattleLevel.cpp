@@ -17,6 +17,7 @@ bool UBattleLevel::InitLevel()
     Score = 0;
     Background->StartMoveMoon();
     ItemSpawnDuration = 0.f;
+    EnemyLevel = 1;
 
     BattleUI = AActor::CreateActor<ABattleUI>("",false);
     return true;
@@ -128,6 +129,11 @@ void UBattleLevel::OnLevelBattleEnd()
 void UBattleLevel::LevelEnd()
 {
     ULevel::LevelEnd();
+
+    CleanActor(Meteorites);
+    CleanActor(Enemies);
+    CleanActor(Items);
+    CleanActor(Explosions);
 }
 
 void UBattleLevel::OnHeroHpChanged()
@@ -232,6 +238,16 @@ void UBattleLevel::ShowExplode(float PosX, float PosY)
     Explode->SetPosition(PosX, PosY);
 }
 
+void UBattleLevel::EnemyUpgrade()
+{
+    EnemyLevel++;
+
+    if (BattleUI)
+    {
+        BattleUI->ShowEnemyUpGrade();
+    }
+}
+
 void UBattleLevel::UpdateMeteorite(float DeltaTime)
 {
     UpdateActors(Meteorites, DeltaTime);
@@ -260,6 +276,15 @@ void UBattleLevel::UpdateEnemies(float DeltaTime)
 {
     UpdateActors(Enemies, DeltaTime);
 
+    if (EnemyLevel < Config::EnemyMaxLevel)
+    {
+        uint32 FrameNumber = TGame::GetFrameNumber();
+        if (FrameNumber % (Config::EnemyUpgradeTime * Config::TargetFPS) == 0)
+        {
+            EnemyUpgrade();
+        }
+    }
+
     SpawnEnemies();
 }
 
@@ -268,7 +293,7 @@ void UBattleLevel::SpawnEnemies()
     uint32 FrameNumber = TGame::GetFrameNumber();
     if (FrameNumber % (Config::EnemyNormalSpawnTime * Config::TargetFPS) == 0)
     {
-        AEnemy* Enemy = AEnemy::CreateEnemy(EEnemyType::Normal);
+        AEnemy* Enemy = AEnemy::CreateEnemy(EEnemyType::Normal,EnemyLevel);
     }
     if (FrameNumber % (Config::EnemyEliteSpawnTime * Config::TargetFPS) == 0)
     {
@@ -281,7 +306,7 @@ void UBattleLevel::SpawnEnemies()
             uint8 num = Math::Floor(Math::Random(4,8));
             for (uint32 i = 0; i < num; ++i)
             {
-                AEnemy* Enemy = AEnemy::CreateEnemy(EEnemyType::Elite);
+                AEnemy* Enemy = AEnemy::CreateEnemy(EEnemyType::Elite, EnemyLevel);
                 if (GroupType == 1)
                 {
                     Enemy->SetPosition(BeginPosX + i * Enemy->GetActorWidth() + 20, BeginPosY);
@@ -294,14 +319,14 @@ void UBattleLevel::SpawnEnemies()
         }
         else
         {
-            AEnemy* Enemy = AEnemy::CreateEnemy(EEnemyType::Elite);
+            AEnemy* Enemy = AEnemy::CreateEnemy(EEnemyType::Elite,EnemyLevel);
             Enemy->SetPosition(BeginPosX, BeginPosY);
             Enemy->SetCanFire(true);
         }
     }
     if (FrameNumber % (Config::EnemyBossSpawnTime * Config::TargetFPS) == 0)
     {
-        AEnemy* Enemy = AEnemy::CreateEnemy(EEnemyType::Boss);
+        AEnemy* Enemy = AEnemy::CreateEnemy(EEnemyType::Boss,EnemyLevel);
     }
 }
 

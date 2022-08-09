@@ -51,21 +51,8 @@ void ULevel::LevelBegin()
 
 void ULevel::LevelEnd()
 {
-    for (AActor* Actor : LevelActors)
-    {
-        Actor->Destroy();
-        delete Actor;
-    }
-
-    for (ABullet* Bullet : Bullets)
-    {
-        Bullet->Destroy();
-        delete Bullet;
-    }
-
-    LevelActors.clear();
-    Bullets.clear();
-    BulletsUnused.clear();
+    CleanActor(LevelActors);
+    CleanActor(Bullets);
 }
 
 void ULevel::OnLevelBattleEnd()

@@ -5,13 +5,14 @@
 #include "../TGame.h"
 #include "../Levels/UBattleLevel.h"
 
-AEnemy* AEnemy::CreateEnemy(EEnemyType EnemyType)
+AEnemy* AEnemy::CreateEnemy(EEnemyType EnemyType,uint32 Level)
 {
-    if (AEnemy* Meteorite = CreateActor<AEnemy>(GetImageNameByType(EnemyType)))
+    if (AEnemy* Enemy = CreateActor<AEnemy>(GetImageNameByType(EnemyType)))
     {
-        Meteorite->EnemyType = EnemyType;
-        Meteorite->BeginPlay();
-        return Meteorite;
+        Enemy->EnemyType = EnemyType;
+        Enemy->Level = Level;
+        Enemy->BeginPlay();
+        return Enemy;
     }
     return nullptr;
 }
@@ -28,10 +29,12 @@ void AEnemy::BeginPlay()
     SetScale(1.5);
     FireCD = 0;
 
+    ConfigFireCD = Config::EnemyEliteFireCD * (1 - (Level - 1) * 0.2);
+
     if (EnemyType == EEnemyType::Boss)
     {
-        Speed = Config::EnemyBossSpeed;
-        HP = Config::EnemyBossHP;
+        Speed = Config::EnemyBossSpeed * Level;
+        HP = Config::EnemyBossHP * (Level + 1) * 0.5;
         SetRotation(180);
         SetPosition(Config::WinWidth + Math::Random(200, 400), Math::Random(100, Config::WinHeight - 100));
         CanFire = true;
@@ -39,13 +42,13 @@ void AEnemy::BeginPlay()
     }
     else if (EnemyType == EEnemyType::Elite)
     {
-        Speed = Config::EnemyEliteSpeed;
-        HP = Config::EnemyEliteHP;
+        Speed = Config::EnemyEliteSpeed + (Level - 1) * 50;
+        HP = Config::EnemyEliteHP * (Level + 1) * 0.5;
     }
     else if (EnemyType == EEnemyType::Normal)
     {
-        Speed = Config::EnemyNormalSpeed;
-        HP = Config::EnemyNormalHP;
+        Speed = Config::EnemyNormalSpeed +  (Level - 1) * 100;
+        HP = Config::EnemyNormalHP * Level;
         SetPosition(Config::WinWidth + Math::Random(200, 400), Math::Random(100, Config::WinHeight - 100));
     }
 }
@@ -120,7 +123,7 @@ void AEnemy::UpdateElite(const float DeltaTime)
     if (CanFire )
     {
         FireCD += DeltaTime;
-        if ( 0 < GetPosX() && GetPosX() < Config::WinWidth && FireCD > Config::EnemyEliteFireCD)
+        if ( 0 < GetPosX() && GetPosX() < Config::WinWidth && FireCD > ConfigFireCD)
         {
             Fire();
         }
@@ -130,7 +133,33 @@ void AEnemy::UpdateElite(const float DeltaTime)
 
 void AEnemy::UpdateBoss(const float DeltaTime)
 {
-    if ( abs(GetPosX() - TargetPosX) < Config::EnemyBossSpeed && abs(GetPosY() - TargetPosY) < Config::EnemyBossSpeed )
+    bool bMove = false;
+    float DSpeed = Config::EnemyBossSpeed * DeltaTime;
+    if (abs(GetPosX() - TargetPosX) > Config::EnemyBossSpeed)
+    {
+        if (GetPosX() < TargetPosX)
+        {
+            UpdatePosX(DSpeed);
+        }
+        else
+        {
+            UpdatePosX(-DSpeed);
+        }
+        bool bMove = true;
+    }
+    if (abs(GetPosY() - TargetPosY) < Config::EnemyBossSpeed)
+    {
+        if (GetPosY() < TargetPosY)
+        {
+            UpdatePosY(DSpeed);
+        }
+        else
+        {
+            UpdatePosY(-DSpeed);
+        }
+        bool bMove = true;
+    }
+    if (!bMove)
     {
         if (StayDuration > Config::EnemyBossStayTime)
         {
@@ -142,32 +171,7 @@ void AEnemy::UpdateBoss(const float DeltaTime)
             StayDuration += StayDuration;
         }
     }
-    else
-    {
-        float DSpeed = Config::EnemyBossSpeed * DeltaTime;
-        if (abs(GetPosX() - TargetPosX) > Config::EnemyBossSpeed)
-        {
-            if (GetPosX() < TargetPosX)
-            {
-                UpdatePosX(DSpeed);
-            }
-            else
-            {
-                UpdatePosX(-DSpeed);
-            }
-        }
-        if (abs(GetPosY() - TargetPosY) < Config::EnemyBossSpeed)
-        {
-            if (GetPosY() < TargetPosY)
-            {
-                UpdatePosY(DSpeed);
-            }
-            else
-            {
-                UpdatePosY(-DSpeed);
-            }
-        }
-    }
+    
     UpdateElite(DeltaTime);
 }
 

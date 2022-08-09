@@ -35,6 +35,7 @@ public:
     bool CheckHitHero(AActor* Actor);
 
     void ShowExplode(float PosX, float PosY);
+    void EnemyUpgrade();
 
 private:
 
@@ -56,6 +57,7 @@ private:
     void UpdateItems(float DeltaTime);
     vector<AItem*> Items;
     float ItemSpawnDuration;
+    uint32 EnemyLevel;
 #pragma endregion
     
     vector<AExplode*> Explosions;

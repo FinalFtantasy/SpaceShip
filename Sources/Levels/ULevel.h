@@ -112,13 +112,21 @@ public:
 		
 		Actors.erase(Actors.begin() + j + 1, Actors.end());
 	}
+
+	template<typename T>
+	static void CleanActor(std::vector<T*>& Actors)
+	{
+		for (AActor* Actor : Actors)
+		{
+			Actor->Destroy();
+			delete Actor;
+		}
+		Actors.clear();
+	}
 	
 protected:
-	
 	std::vector<class AActor*> LevelActors;
-	
 	std::vector<class ABullet*> Bullets;
-	std::vector<class ABullet*> BulletsUnused;
 
 	static class ABackground* Background;
 

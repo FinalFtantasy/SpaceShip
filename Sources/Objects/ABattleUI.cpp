@@ -15,6 +15,11 @@ void ABattleUI::Init()
     FScore = AFont::CreateFont("Score: 0", 50);
     FScore->SetPosition(Config::WinWidth/2, Config::WinHeight - 50);
 
+    FNotice = AFont::CreateFont("Enemy Upgrade!", 40);
+    FNotice->SetPosition(Config::WinWidth/2, Config::WinHeight - 150);
+    FNotice->HideInGame();
+    NoticeDuration = 0.f;
+
     for(uint32 i = 0; i < Config::DefaultHeroLife; ++i)
     {
         AActor* Life = AActor::CreateActor("Life",false);
@@ -37,6 +42,14 @@ void ABattleUI::BeginPlay()
 void ABattleUI::Update(const float DeltaTime)
 {
     AActor::Update(DeltaTime);
+
+    if (!FNotice->IsHide())
+    {
+        if (NoticeDuration > 2.f)
+        {
+            FNotice->HideInGame();
+        }
+    }
 }
 
 void ABattleUI::Draw() const
@@ -115,4 +128,10 @@ void ABattleUI::UpdateScore(uint32 Score)
     char Buff[20];
     sprintf(Buff,"Score: %d", Score);
     FScore->SetText(Buff);
+}
+
+void ABattleUI::ShowEnemyUpGrade()
+{
+    FNotice->Show();
+    FNotice->SetScale(1.5);
 }
