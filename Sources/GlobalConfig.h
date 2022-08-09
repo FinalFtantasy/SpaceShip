@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#define DEBUG
+//#define DEBUG
 
 typedef unsigned int uint32;
 typedef unsigned char uint8;
@@ -60,21 +60,21 @@ namespace Config
 	constexpr uint32 EnemyNormalScore = 1;
 
 	constexpr uint32 EnemyEliteSpawnTime = 5;
-	constexpr uint32 EnemyEliteSpeed = 300;
+	constexpr uint32 EnemyEliteSpeed = 200;
 	constexpr uint32 EnemyEliteHP = 40;
 	constexpr uint32 EnemyEliteScore = 10;
-	constexpr uint32 EnemyEliteFireCD = 1;
+	constexpr float EnemyEliteFireCD = 1.5f;
 
 	constexpr uint32 EnemyBossSpawnTime = 30;
-	constexpr uint32 EnemyBossSpeed = 100;
+	constexpr uint32 EnemyBossSpeed = 2;
 	constexpr uint32 EnemyBossHP = 300;
 	constexpr uint32 EnemyBossScore = 50;
 	constexpr uint32 EnemyBossFireCD = 3;
-	constexpr uint32 EnemyBossStayTime = 4;
+	constexpr uint32 EnemyBossStayTime = 3;
 
-	constexpr uint32 EnemyBulletSpeed = 400;
+	constexpr uint32 EnemyBulletSpeed = 300;
 	constexpr uint32 EnemyMaxLevel = 4;
-	constexpr uint32 EnemyUpgradeTime = 20;
+	constexpr uint32 EnemyUpgradeTime = 30;
 
 	// Damage
 	constexpr uint32 DefaultCollisionDamage = 1;

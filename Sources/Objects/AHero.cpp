@@ -56,10 +56,26 @@ void AHero::Update(const float DeltaTime)
     if (MoveX != 0)
     {
         UpdatePosX(static_cast<float>(Speed) * DeltaTime * MoveX);
+        if (GetPosX() < 0)
+        {
+            SetPosX(0);
+        }
+        else if(GetPosX() > Config::WinWidth)
+        {
+            SetPosX(Config::WinWidth);
+        }
     }
     if (MoveY != 0)
     {
         UpdatePosY(static_cast<float>(Speed) * DeltaTime * MoveY);
+        if (GetPosY() < 0)
+        {
+            SetPosY(0);
+        }
+        else if(GetPosY() > Config::WinHeight)
+        {
+            SetPosY(Config::WinHeight);
+        }
     }
 
     if (FireCD <= 0.f && bOpenFire)
@@ -129,27 +145,26 @@ void AHero::ResetInput()
 
 void AHero::Upgrade()
 {
-    if (Level >= Config::MaxLevel)
+    if (Level < Config::MaxLevel)
     {
-        return;
-    }
-    Level += 1;
+        Level += 1;
 
-    if (Level == 2)
-    {
-        SetImage("Player_2");
-        Speed = Config::DefaultHeroSpeed * 1.2;
-        Damage = Config::DefaultHeroBulletDamage * 1.5;
-        BulletSpeed = Config::DefaultBulletSpeed * 1.5;
-        ConfigFireCD = Config::DefaultHeroFireCD * 0.5;
-    }
-    else if (Level == 3)
-    {
-        SetImage("Player_3");
-        Speed = Config::DefaultHeroSpeed * 1.5;
-        Damage = Config::DefaultHeroBulletDamage * 2;
-        BulletSpeed = Config::DefaultBulletSpeed * 2;
-        ConfigFireCD = Config::DefaultHeroFireCD * 0.3;
+        if (Level == 2)
+        {
+            SetImage("Player_2");
+            Speed = Config::DefaultHeroSpeed * 1.2;
+            Damage = Config::DefaultHeroBulletDamage * 2;
+            BulletSpeed = Config::DefaultBulletSpeed * 1.5f;
+            ConfigFireCD = Config::DefaultHeroFireCD * 0.5f;
+        }
+        else if (Level == 3)
+        {
+            SetImage("Player_3");
+            Speed = Config::DefaultHeroSpeed * 1.5f;
+            Damage = Config::DefaultHeroBulletDamage * 4;
+            BulletSpeed = Config::DefaultBulletSpeed * 2;
+            ConfigFireCD = Config::DefaultHeroFireCD * 0.3f;
+        }
     }
 
     if (HP < Config::DefaultHeroLife)

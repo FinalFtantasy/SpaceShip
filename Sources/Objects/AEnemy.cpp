@@ -28,11 +28,13 @@ void AEnemy::BeginPlay()
     APawn::BeginPlay();
     SetScale(1.5);
     FireCD = 0;
-
-    ConfigFireCD = Config::EnemyEliteFireCD * (1 - (Level - 1) * 0.2);
-
+    bMove = true;
+    
     if (EnemyType == EEnemyType::Boss)
     {
+        ConfigFireCD = Config::EnemyEliteFireCD  * (1 - (Level - 1.f) * 0.15f);
+        BulletSpeed = Config::EnemyBulletSpeed + (Level - 1) * 90;
+
         Speed = Config::EnemyBossSpeed * Level;
         HP = Config::EnemyBossHP * (Level + 1) * 0.5;
         SetRotation(180);
@@ -42,12 +44,15 @@ void AEnemy::BeginPlay()
     }
     else if (EnemyType == EEnemyType::Elite)
     {
+        ConfigFireCD = Config::EnemyEliteFireCD  * (1 - (Level - 1.f) * 0.1f);
+        BulletSpeed = Config::EnemyBulletSpeed + (Level - 1) * 80;
+        
         Speed = Config::EnemyEliteSpeed + (Level - 1) * 50;
         HP = Config::EnemyEliteHP * (Level + 1) * 0.5;
     }
     else if (EnemyType == EEnemyType::Normal)
     {
-        Speed = Config::EnemyNormalSpeed +  (Level - 1) * 100;
+        Speed = Config::EnemyNormalSpeed +  (Level - 1) * 80;
         HP = Config::EnemyNormalHP * Level;
         SetPosition(Config::WinWidth + Math::Random(200, 400), Math::Random(100, Config::WinHeight - 100));
     }
@@ -133,42 +138,55 @@ void AEnemy::UpdateElite(const float DeltaTime)
 
 void AEnemy::UpdateBoss(const float DeltaTime)
 {
-    bool bMove = false;
-    float DSpeed = Config::EnemyBossSpeed * DeltaTime;
-    if (abs(GetPosX() - TargetPosX) > Config::EnemyBossSpeed)
+    if(bMove)
     {
-        if (GetPosX() < TargetPosX)
+        bMove = false;
+        float DSpeed = Config::EnemyBossSpeed;
+        if (abs(GetPosX() - TargetPosX) > Config::EnemyBossSpeed)
         {
-            UpdatePosX(DSpeed);
+            if (GetPosX() < TargetPosX)
+            {
+                UpdatePosX(DSpeed);
+            }
+            else
+            {
+                UpdatePosX(-DSpeed);
+            }
+            bMove = true;
         }
         else
         {
-            UpdatePosX(-DSpeed);
+            SetPosX(TargetPosX);
         }
-        bool bMove = true;
-    }
-    if (abs(GetPosY() - TargetPosY) < Config::EnemyBossSpeed)
-    {
-        if (GetPosY() < TargetPosY)
+        
+        if (abs(GetPosY() - TargetPosY) > Config::EnemyBossSpeed)
         {
-            UpdatePosY(DSpeed);
+            if (GetPosY() < TargetPosY)
+            {
+                UpdatePosY(DSpeed);
+            }
+            else
+            {
+                UpdatePosY(-DSpeed);
+            }
+            bMove = true;
         }
         else
         {
-            UpdatePosY(-DSpeed);
+            SetPosY(TargetPosY);
         }
-        bool bMove = true;
     }
-    if (!bMove)
+    else
     {
         if (StayDuration > Config::EnemyBossStayTime)
         {
             RefreshTargetPos();
+            bMove = true;
             StayDuration = 0.f;
         }
         else
         {
-            StayDuration += StayDuration;
+            StayDuration += DeltaTime;
         }
     }
     
@@ -196,10 +214,11 @@ void AEnemy::Fire()
 
     ABullet* Bullet = ABullet::CreateBullet(EBulletType::EnemyNormal);
     Bullet->SetPosition(GetPosX() - GetActorWidth()/2 - 10, GetPosY());
+    Bullet->SetSpeed(BulletSpeed);
 }
 
 void AEnemy::RefreshTargetPos()
 {
     TargetPosX = Math::Floor(Math::Random(Config::WinWidth/2 + 200 , Config::WinWidth - 150));
-    TargetPosY = Math::Floor(Math::Random( 200 , Config::WinHeight - 200));
+    TargetPosY = Math::Floor(Math::Random( 150 , Config::WinHeight - 150));
 }

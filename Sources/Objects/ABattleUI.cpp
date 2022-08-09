@@ -45,9 +45,14 @@ void ABattleUI::Update(const float DeltaTime)
 
     if (!FNotice->IsHide())
     {
-        if (NoticeDuration > 2.f)
+        if (NoticeDuration > 1.5f)
         {
             FNotice->HideInGame();
+            NoticeDuration= 0.f;
+        }
+        else
+        {
+            NoticeDuration += DeltaTime;
         }
     }
 }
@@ -58,7 +63,7 @@ void ABattleUI::Draw() const
 
     FLife->Draw();
     FScore->Draw();
-
+    FNotice->Draw();
     ULevel::DrawActors(HeroLife);
 }
 
@@ -133,5 +138,5 @@ void ABattleUI::UpdateScore(uint32 Score)
 void ABattleUI::ShowEnemyUpGrade()
 {
     FNotice->Show();
-    FNotice->SetScale(1.5);
+    FNotice->SetScale(1.3);
 }

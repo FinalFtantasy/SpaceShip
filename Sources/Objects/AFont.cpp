@@ -21,7 +21,7 @@ AFont* AFont::CreateFont(const std::string& InString, const uint32 FontSize )
 
 void AFont::Draw() const 
 {
-    if (Font)
+    if (Font && !IsHide())
     {
         Simple2D::DrawString(Font, Text, Transform.PosX, Transform.PosY, Transform.Rotation, Transform.Scale);
     }

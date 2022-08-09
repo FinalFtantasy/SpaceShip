@@ -47,7 +47,7 @@ public:
 	virtual void OnHeroHpChanged();
 
 	void Pause() { bPause = true; }
-	void Resume() { bPause = false; };
+	void Resume() { bPause = false; }
 
 	template<typename T>
 	static void UpdateActors(std::vector<T*>& Actors, float DeltaTime)

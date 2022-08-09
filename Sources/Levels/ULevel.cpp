@@ -108,6 +108,20 @@ void ULevel::LevelUpdate(float DeltaTime)
             Pause();
             OnLevelBattleEnd();
         }
+        else
+        {
+            if (Simple2D::IsKeyPressed(Simple2D::KEY_ESCAPE))
+            {
+                Pause();
+            }
+        }
+    }
+    else
+    {
+        if (Simple2D::IsKeyPressed(Simple2D::KEY_ESCAPE))
+        {
+            Resume();
+        }
     }
 }
 

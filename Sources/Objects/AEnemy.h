@@ -42,7 +42,9 @@ private:
     uint32 TargetPosY;
     float StayDuration;
     uint32 Level;
-    uint32 ConfigFireCD;
+    float ConfigFireCD;
+    uint32 BulletSpeed;
+    bool bMove;
 
     bool CanFire;
     float FireCD;
